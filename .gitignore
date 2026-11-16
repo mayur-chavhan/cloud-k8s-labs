@@ -1,0 +1,11 @@
+# secrets, kubeconfigs, temporary files
+.env
+*.env
+!env.example
+*kubeconfig*
+*.kubeconfig
+.az-sp-secret*
+*.pem
+*.key
+.aws/
+eksctl-*.yaml.bak

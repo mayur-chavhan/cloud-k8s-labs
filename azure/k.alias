@@ -1,0 +1,4 @@
+# shellcheck shell=bash
+# kubectl wrapper. ONLY needed on machines with a TLS-intercepting proxy
+# (e.g. the Hermes server). On your own laptop plain `kubectl` works fine.
+k() { HTTP_PROXY= HTTPS_PROXY= http_proxy= https_proxy= kubectl "$@"; }
