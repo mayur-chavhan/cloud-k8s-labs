@@ -1,0 +1,24 @@
+# The ArgoCD Application — THE thing that makes the cluster match Git.
+# Git source: THIS repo, path argocd-demo/. Destination: this cluster, default ns.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-nginx
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/mayur-chavhan/cloud-k8s-labs.git
+    targetRevision: main
+    path: argocd-demo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true      # delete cluster objects removed from Git
+      selfHeal: true   # revert manual kubectl changes back to Git state
+    syncOptions:
+    - CreateNamespace=false
