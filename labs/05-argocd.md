@@ -5,12 +5,17 @@ cluster match it. You never `kubectl apply` an app by hand again (in prod discip
 
 ## Prereq
 Cluster up + connected: `kubectl get nodes` shows `t3.medium` Ready.
+Git source must be READABLE BY ARGOCD anonymously — i.e. the repo must be
+**public** (or register a repo credential in ArgoCD, the production pattern for
+private repos). Symptom if you forget: app stuck `Unknown` with
+"authentication required: Repository not found" in conditions.
 
 ## Tasks
-1. [ ] Install ArgoCD with Helm (this server already has helm 3.22):
+1. [ ] Install ArgoCD with Helm (this server already has helm 3.22).
+   Chart name is `argo-cd` (with a dash) — NOT `argocd`:
    ```bash
    helm repo add argo https://argoproj.github.io/argo-helm && helm repo update
-   helm install argocd argo/argocd -n argocd --create-namespace \
+   helm install argocd argo/argo-cd -n argocd --create-namespace \
      --set server.service.type=LoadBalancer
    ```
 2. [ ] Watch it settle (~1-2 min): `kubectl get pods -n argocd -w`
